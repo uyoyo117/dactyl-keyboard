@@ -24,11 +24,12 @@ show_caps = True
 nrows = 5  # key rows
 ncols = 6  # key columns
 
-alpha = pi / 12.0  # curvature of the columns
-beta = pi / 36.0  # curvature of the rows
-centerrow = nrows - 3  # controls front_back tilt
-centercol = 3  # controls left_right tilt / tenting (higher number is more tenting)
-tenting_angle = pi / 12.0  # or, change this for more precise tenting control
+alpha = pi / 10.0  # curvature of the columns
+beta = pi / 40.0  # curvature of the rows
+centerrow = nrows - 3.2  # controls front_back tilt
+centercol = 3.5  # controls left_right tilt / tenting (higher number is more tenting)
+tenting_angle = 0  # or, change this for more precise tenting control
+
 
 if nrows > 5:
     column_style = "orthographic"
@@ -149,14 +150,14 @@ def column_offset(column: int) -> list:
 
 thumb_offsets = [6, -3, 7]
 keyboard_z_offset = (
-    9  # controls overall height# original=9 with centercol=3# use 16 for centercol=2
+    8  # controls overall height# original=9 with centercol=3# use 16 for centercol=2
 )
 
-extra_width = 2.5  # extra space between the base of keys# original= 2
+extra_width = 2 # extra space between the base of keys# original= 2
 extra_height = 1.0  # original= 0.5
 
-wall_z_offset = -15  # length of the first downward_sloping part of the wall (negative)
-wall_xy_offset = 5  # offset in the x and/or y direction for the first downward_sloping part of the wall (negative)
+wall_z_offset = -1  # length of the first downward_sloping part of the wall (negative)
+wall_xy_offset = 2  # offset in the x and/or y direction for the first downward_sloping part of the wall (negative)
 wall_thickness = 2  # wall thickness parameter# originally 5
 
 ## Settings for column_style == :fixed
@@ -181,15 +182,14 @@ lastcol = ncols - 1
 ## Switch Hole ##
 #################
 
-keyswitch_height = 14.4  ## Was 14.1, then 14.25
-keyswitch_width = 14.4
+keyswitch_height = 13.8  ## Was 14.1, then 14.25
+keyswitch_width = 13.8
 
-sa_profile_key_height = 12.7
+sa_profile_key_height = 9
 
-plate_thickness = 4
-mount_width = keyswitch_width + 3
-mount_height = keyswitch_height + 3
-mount_thickness = plate_thickness
+plate_thickness = 3
+mount_width = keyswitch_width + 2.9
+mount_height = keyswitch_height + 2.5
 
 SWITCH_WIDTH = 14
 SWITCH_HEIGHT = 14
@@ -229,8 +229,8 @@ def single_plate(cylinder_segments=100):
 ## SA Keycaps ##
 ################
 
-sa_length = 18.25
-sa_double_length = 37.5
+sa_length = 17.3
+sa_double_length = 35
 
 
 def sa_cap(Usize=1):
@@ -416,7 +416,7 @@ def caps():
 ## Web Connectors ##
 ####################
 
-web_thickness = 3.5 + .5
+web_thickness = 3.5
 post_size = 0.1
 
 
@@ -509,50 +509,56 @@ def thumborigin():
 
 
 def thumb_tr_place(shape):
-    print('thumb_tr_place()')
-    shape = rotate(shape, [10, -23, 10])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-12, -16, 3])
+    shape = sl.rotate(10, [1, 0, 0])(shape)
+    shape = sl.rotate(-10, [0, 1, 0])(shape)
+    shape = sl.rotate(10, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-12, -16, -4])(shape)
     return shape
 
 
 def thumb_tl_place(shape):
-    print('thumb_tl_place()')
-    shape = rotate(shape, [10, -23, 10])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-32, -15, -2])
+    shape = sl.rotate(15, [1, 0, 0])(shape)
+    shape = sl.rotate(-10, [0, 1, 0])(shape)
+    shape = sl.rotate(10, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-32, -14, -3])(shape)
     return shape
 
 
 def thumb_mr_place(shape):
-    print('thumb_mr_place()')
-    shape = rotate(shape, [-6, -34, 48])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-29, -40, -13])
+    shape = sl.rotate(-6, [1, 0, 0])(shape)
+    shape = sl.rotate(-24, [0, 1, 0])(shape)
+    shape = sl.rotate(48, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-30, -41, -12])(shape)
     return shape
 
 
 def thumb_ml_place(shape):
-    print('thumb_ml_place()')
-    shape = rotate(shape, [6, -34, 40])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-51, -25, -12])
+    shape = sl.rotate(6, [1, 0, 0])(shape)
+    shape = sl.rotate(-24, [0, 1, 0])(shape)
+    shape = sl.rotate(48, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-49, -29, -10])(shape)
     return shape
 
 
 def thumb_br_place(shape):
-    print('thumb_br_place()')
-    shape = rotate(shape, [-16, -33, 54])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-37.8, -55.3, -25.3])
+    shape = sl.rotate(-6, [1, 0, 0])(shape)
+    shape = sl.rotate(-15, [0, 1, 0])(shape)
+    shape = sl.rotate(48, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-42.8, -56.3, -18])(shape)
     return shape
 
 
 def thumb_bl_place(shape):
-    print('thumb_bl_place()')
-    shape = rotate(shape, [-4, -35, 52])
-    shape = shape.translate(thumborigin())
-    shape = shape.translate([-56.3, -43.3, -23.5])
+    shape = sl.rotate(1, [1, 0, 0])(shape)
+    shape = sl.rotate(-15, [0, 1, 0])(shape)
+    shape = sl.rotate(40, [0, 0, 1])(shape)
+    shape = sl.translate(thumborigin())(shape)
+    shape = sl.translate([-61.3, -44.3, -18])(shape)
     return shape
 
 
@@ -817,8 +823,8 @@ def bottom_hull(p, height=0.001):
     return shape
 
 
-left_wall_x_offset = 10
-left_wall_z_offset = 3
+left_wall_x_offset = 2
+left_wall_z_offset = 2
 
 
 def left_key_position(row, direction):
@@ -1264,15 +1270,15 @@ def usb_holder_hole():
     return shape
 
 
-teensy_width = 20
-teensy_height = 12
-teensy_length = 33
-teensy2_length = 53
-teensy_pcb_thickness = 2
-teensy_holder_width = 7 + teensy_pcb_thickness
-teensy_holder_height = 6 + teensy_width
-teensy_offset_height = 5
-teensy_holder_top_length = 18
+teensy_width = 0
+teensy_height = 0
+teensy_length = 0
+teensy2_length = 0
+teensy_pcb_thickness = 0
+teensy_holder_width = 0 + teensy_pcb_thickness
+teensy_holder_height = 0 + teensy_width
+teensy_offset_height = 0
+teensy_holder_top_length = 0
 teensy_top_xy = key_position(wall_locate3(-1, 0), 0, centerrow - 1)
 teensy_bot_xy = key_position(wall_locate3(-1, 0), 0, centerrow + 1)
 teensy_holder_length = teensy_top_xy[1] - teensy_bot_xy[1]
@@ -1393,14 +1399,14 @@ screw_insert_holes = screw_insert_all_shapes(
 )
 screw_insert_outers = screw_insert_all_shapes(
     screw_insert_bottom_radius + 1.6,
-    screw_insert_top_radius + 1.6,
+    screw_insert_top_radius + 1,
     screw_insert_height + 1.5,
 )
 screw_insert_screw_holes = screw_insert_all_shapes(1.7, 1.7, 350)
 
-wire_post_height = 7
-wire_post_overhang = 3.5
-wire_post_diameter = 2.6
+wire_post_height = 0
+wire_post_overhang = 0
+wire_post_diameter = 0
 
 
 def wire_post(direction, offset):
